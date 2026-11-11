@@ -1,0 +1,43 @@
+# Dependencies
+/node_modules/
+
+# Next.js build output and generated types
+/.next/
+/out/
+/build/
+next-env.d.ts
+*.tsbuildinfo
+
+# Vercel CLI
+/.vercel/
+
+# Environment: secrets stay local. Only the template is committed.
+.env*
+!.env.example
+
+# Tests
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local tool state (shared settings in .claude/settings.json are committed)
+.claude/settings.local.json
+.delta/
+
+# Certificates and keys
+*.pem
+*.key
+

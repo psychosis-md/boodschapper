@@ -1,0 +1,17 @@
+#!/bin/sh
+# Removes AI attribution from commit messages (AGENTS.md rule 6): people author
+# commits, and AI work is credited only in docs/hci/ai-use-log.md.
+# Enabled by `npm install` (prepare script: git config core.hooksPath .githooks).
+
+msg_file="$1"
+tmp="$(mktemp)"
+
+# Drop Co-authored-by trailers for AI tools and "Generated with ..." lines.
+grep -viE \
+  -e '^co-authored-by:.*(claude|anthropic|copilot|cursor|codex|openai|chatgpt|gpt|gemini|devin|aider|windsurf|codeium|\[bot\])' \
+  -e '^(🤖 )?generated (with|by) .*(claude|copilot|cursor|codex|chatgpt|gemini|ai)' \
+  "$msg_file" > "$tmp"
+
+# Remove trailing blank lines left behind.
+sed -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$tmp" > "$msg_file"
+rm -f "$tmp"

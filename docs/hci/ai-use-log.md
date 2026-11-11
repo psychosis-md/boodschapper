@@ -1,0 +1,11 @@
+# AI use log
+
+This log feeds the mandatory "AI Use" section of the D3 deck (tools, core prompts, how the team changed the output) and our critical reflection on the AI tools. Add one row per feature, PR or substantial generation, not per small edit.
+
+This is the **only** place AI work is credited. Commits and PRs are authored by team members and carry no AI attribution (see `AGENTS.md`).
+
+**Agents:** add a row when you finish. Every row names the person who directed the work: "Who" is "<team member's full name> + <tool>", never TODO, blank or a tool alone. Take the name from the session (`git config user.name`); if you can't tell who it is, ask before writing the row. Fill in the tool, the task, the key prompt and where the output went. Leave "Human changes" for the team. Under "Problems seen", note concrete issues you hit or had to fix, such as a hallucinated API, inaccessible output or a wrong assumption. Stick to facts.
+
+| Date | Who (person + tool) | Task | Key prompt (verbatim, or a link) | Output → where | Human changes | Problems seen |
+|---|---|---|---|---|---|---|
+| 2026-11-11 | Amir Djaffar + Claude Code | Project scaffold: Next.js (App Router) with create-next-app, shadcn/ui (Radix, Nova preset), Drizzle with an empty schema, zod, Vitest, Playwright with axe, ESLint jsx-a11y; theme tokens; app shell (skip link, header, footer, error and 404 pages, PWA manifest); commit-msg hook, Claude Code settings, PR template. No features | "WE ARE ONLY DOING SCAFFOLDING, not any features yet, just the base backbone in terms of structure and packages" | `package.json`, `src/`, `tests/e2e/`, `drizzle/`, config files, `.githooks/`, `.claude/settings.json`, `.github/pull_request_template.md` | TODO | Generated shadcn buttons were 24–36 px tall and used a 50%-alpha focus ring, so they were changed to ≥ 44 px and a solid ring. The generated scaffold pinned `@types/node@^20`, which conflicted with Vitest; bumped to `^22`. Next.js 16 APIs differ from the model's training data (e.g. `error.tsx` gets `retry`, not `reset`), so the bundled docs in `node_modules/next/dist/docs/` were read first. Token contrast was computed by script, not yet checked with a human-run contrast checker |
