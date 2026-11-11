@@ -24,7 +24,7 @@ This is our group project for TU Delft **CSE12B Human-Computer Interaction & AI-
 
 Project scope (D1): domain *budget cooking/grocery sharing* · target group *students on a strict budget* · system goal *AI-driven recommendation* (secondary: collaborative planning) · platform *mobile web application* (secondary: responsive desktop web application)
 
-Live prototype: TODO
+Live prototype: <https://boodschapper-prod.vercel.app>
 
 ## Stack
 
@@ -112,7 +112,7 @@ One-time setup in the dashboards (done by a team member, not in code):
 3. **Vercel → Settings → Deployment Checks:** add the two CI jobs, so a production deploy is only promoted once CI is green.
 4. **GitHub → Settings → Branches:** protect `main` and require the CI checks to pass before merging.
 
-TODO: the production URL, and the demo account evaluators use. The final deliverable needs a working live URL by **Wed 20 Jan 2027**.
+Production: <https://boodschapper-prod.vercel.app>. TODO: the demo account evaluators use. The final deliverable needs a working live URL by **Wed 20 Jan 2027**.
 
 ## HCI documentation
 
