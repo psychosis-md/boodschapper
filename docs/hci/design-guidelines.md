@@ -6,7 +6,7 @@ Course basis: Nielsen's 10 heuristics (the list the course's evaluation labs use
 
 Boodschapper is a consumer app for students on a phone, not a B2B dashboard. shadcn/ui's defaults look like a SaaS admin panel, so change them:
 
-- **Theme tokens** in `globals.css` set the look: a warm primary colour, a separate "savings" accent, a generous radius and a friendly font. Never use supermarket brand colours (e.g. Albert Heijn blue, Jumbo yellow), so we're never confused with a store.
+- **Theme tokens** in `globals.css` set the look: TU Delft house style (navy `#0C2340`, cyan `#00A6D6`, blue `#0076C2`; Roboto and Roboto Slab), a separate "savings" accent. Cyan fails contrast on white, so it is decorative only in light mode. Never use supermarket brand colours (e.g. Albert Heijn blue, Jumbo yellow), so we're never confused with a store.
 - **Mobile patterns:** a bottom tab bar (3–5 items), `Drawer` (bottom sheet) rather than `Dialog` on phones, cards with product images rather than tables, and main actions within thumb reach.
 - **Prices:** `tabular-nums` so amounts line up; the saving is the most prominent number.
 - **Feedback:** skeletons while loading or while the AI works, toasts to confirm, friendly empty states with a next step.

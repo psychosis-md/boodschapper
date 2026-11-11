@@ -11,9 +11,12 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-figtree);
+  --font-sans: var(--font-roboto);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-figtree);
+  --font-heading: var(--font-roboto-slab);
+  --color-brand: var(--brand);
+  --color-header: var(--header);
+  --color-header-foreground: var(--header-foreground);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
   --color-chart-3: var(--chart-3);
@@ -47,80 +50,89 @@
 }
 
 /*
- * Theme tokens. Warm terracotta primary and a separate green "savings"
- * accent; deliberately not any supermarket's brand colour.
+ * Theme tokens: TU Delft house style. Navy #0C2340, cyan #00A6D6 and
+ * blue #0076C2, with Roboto / Roboto Slab. A separate green "savings"
+ * accent stays; still no supermarket brand colours.
  *
- * Contrast (WCAG 2.2 AA), computed from these oklch values on 2026-11-11:
- *   light: foreground/background 16.9, primary-foreground/primary 5.7,
- *          savings/background 6.2, muted-foreground/background 6.4,
- *          muted-foreground/muted 5.8, input border/background 3.6,
- *          ring/background 5.7, destructive/background 5.7
- *   dark:  foreground/background 16.8, primary-foreground/primary 7.6,
- *          savings/background 9.0, muted-foreground/background 8.1,
- *          muted-foreground/muted 6.7, input border/background 3.1,
- *          ring/background 7.8, destructive/background 6.5
+ * Cyan on white is only 2.8:1, so in light mode the interactive colour is
+ * TU Delft blue #0076C2 and cyan is used as a decorative accent only.
+ *
+ * Contrast (WCAG 2.2 AA), computed by script on 2026-11-11:
+ *   light: foreground/background 15.8, primary-foreground/primary 4.8,
+ *          muted-foreground/background 7.1, muted-foreground/muted 6.3,
+ *          secondary-foreground/secondary 14.2, input/background 3.6,
+ *          ring/background 4.8, ring/header 3.3, header text 15.8
+ *   dark:  foreground/background 16.7, primary-foreground/primary 5.6,
+ *          primary/background 6.4, muted-foreground/background 9.0,
+ *          muted-foreground/muted 7.2, ring/background 6.4, ring/header 5.6
  * Re-check with a contrast checker whenever you change a token.
  *
  * --border is decorative (dividers, card edges). Anything that identifies a
  * control, such as an input's outline, uses --input, which meets 3:1.
  */
 :root {
-  --background: oklch(0.99 0.008 75);
-  --foreground: oklch(0.22 0.02 50);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.02 50);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.02 50);
-  --primary: oklch(0.52 0.15 38);
-  --primary-foreground: oklch(0.99 0.008 75);
-  --secondary: oklch(0.955 0.012 70);
-  --secondary-foreground: oklch(0.22 0.02 50);
-  --muted: oklch(0.955 0.012 70);
-  --muted-foreground: oklch(0.48 0.02 50);
-  --accent: oklch(0.955 0.012 70);
-  --accent-foreground: oklch(0.22 0.02 50);
+  --background: #ffffff;
+  --foreground: #0c2340;
+  --card: #ffffff;
+  --card-foreground: #0c2340;
+  --popover: #ffffff;
+  --popover-foreground: #0c2340;
+  --primary: #0076c2;
+  --primary-foreground: #ffffff;
+  --secondary: #e6f6fb;
+  --secondary-foreground: #0c2340;
+  --muted: #eef3f7;
+  --muted-foreground: #4a5a6e;
+  --accent: #e6f6fb;
+  --accent-foreground: #0c2340;
+  --brand: #00a6d6;
+  --header: #0c2340;
+  --header-foreground: #ffffff;
   --savings: oklch(0.47 0.11 160);
   --savings-foreground: oklch(1 0 0);
   --destructive: oklch(0.53 0.2 27);
-  --border: oklch(0.9 0.015 70);
-  --input: oklch(0.62 0.02 60);
-  --ring: oklch(0.52 0.15 38);
-  --chart-1: oklch(0.52 0.15 38);
+  --border: #dbe3eb;
+  --input: #7a8899;
+  --ring: #0076c2;
+  --chart-1: #0076c2;
   --chart-2: oklch(0.47 0.11 160);
-  --chart-3: oklch(0.55 0.1 250);
+  --chart-3: #00a6d6;
   --chart-4: oklch(0.6 0.12 85);
-  --chart-5: oklch(0.45 0.08 320);
-  --radius: 0.875rem;
+  --chart-5: #0c2340;
+  --radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background: oklch(0.18 0.015 50);
-    --foreground: oklch(0.96 0.01 75);
-    --card: oklch(0.22 0.015 50);
-    --card-foreground: oklch(0.96 0.01 75);
-    --popover: oklch(0.22 0.015 50);
-    --popover-foreground: oklch(0.96 0.01 75);
-    --primary: oklch(0.74 0.13 45);
-    --primary-foreground: oklch(0.2 0.03 40);
-    --secondary: oklch(0.26 0.015 50);
-    --secondary-foreground: oklch(0.96 0.01 75);
-    --muted: oklch(0.26 0.015 50);
-    --muted-foreground: oklch(0.74 0.02 60);
-    --accent: oklch(0.26 0.015 50);
-    --accent-foreground: oklch(0.96 0.01 75);
+    --background: #081628;
+    --foreground: #f2f6fa;
+    --card: #0c2340;
+    --card-foreground: #f2f6fa;
+    --popover: #0c2340;
+    --popover-foreground: #f2f6fa;
+    --primary: #00a6d6;
+    --primary-foreground: #0c2340;
+    --secondary: #132a45;
+    --secondary-foreground: #f2f6fa;
+    --muted: #132a45;
+    --muted-foreground: #a9b8c9;
+    --accent: #132a45;
+    --accent-foreground: #f2f6fa;
+    --brand: #00a6d6;
+    --header: #0c2340;
+    --header-foreground: #ffffff;
     --savings: oklch(0.75 0.13 160);
     --savings-foreground: oklch(0.18 0.03 160);
     --destructive: oklch(0.7 0.18 25);
     --border: oklch(1 0 0 / 12%);
-    --input: oklch(0.5 0.02 60);
-    --ring: oklch(0.74 0.13 45);
-    --chart-1: oklch(0.74 0.13 45);
+    --input: #5b6f86;
+    --ring: #00a6d6;
+    --chart-1: #00a6d6;
     --chart-2: oklch(0.75 0.13 160);
-    --chart-3: oklch(0.72 0.1 250);
+    --chart-3: #6fd0ec;
     --chart-4: oklch(0.8 0.12 85);
-    --chart-5: oklch(0.7 0.1 320);
+    --chart-5: #a9b8c9;
   }
 }
 
@@ -133,6 +145,11 @@
   }
   html {
     @apply font-sans;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
   }
   /* A visible focus ring everywhere (accessibility.md: at least 2 px, 3:1). */
   :focus-visible {

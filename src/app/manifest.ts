@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Compare grocery prices across stores and shop smarter on a student budget.",
     start_url: "/",
     display: "standalone",
-    background_color: "#fffbf6",
-    theme_color: "#fffbf6",
+    background_color: "#ffffff",
+    theme_color: "#0c2340",
     icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }],
   };
 }

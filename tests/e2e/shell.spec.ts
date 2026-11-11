@@ -31,3 +31,20 @@ test.describe("app shell", () => {
     await expectNoAxeViolations(page);
   });
 });
+
+test.describe("about page", () => {
+  test("is reachable from the home page button", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("main").getByRole("link", { name: "About us" }).click();
+    await expect(page).toHaveURL(/\/about$/);
+    await expect(page).toHaveTitle("About us · Boodschapper");
+    await expect(page.getByRole("heading", { level: 1, name: "About us" })).toBeVisible();
+    await expectNoAxeViolations(page);
+  });
+
+  test("has no axe violations in dark mode", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/about");
+    await expectNoAxeViolations(page);
+  });
+});

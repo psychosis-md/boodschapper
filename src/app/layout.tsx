@@ -1,10 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Roboto, Roboto_Slab } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const figtree = Figtree({
-  variable: "--font-figtree",
+// TU Delft house fonts: Roboto for body text, Roboto Slab for headings.
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin", "latin-ext"],
+});
+
+const robotoSlab = Roboto_Slab({
+  variable: "--font-roboto-slab",
   subsets: ["latin", "latin-ext"],
 });
 
@@ -29,8 +35,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fffbf6" },
-    { media: "(prefers-color-scheme: dark)", color: "#17100c" },
+    { media: "(prefers-color-scheme: light)", color: "#0c2340" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c2340" },
   ],
 };
 
@@ -38,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${figtree.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${roboto.variable} ${robotoSlab.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a
@@ -48,14 +54,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
 
-        <header className="border-b">
-          <div className="mx-auto flex h-14 w-full max-w-5xl items-center px-4">
+        <header className="border-b-4 border-brand bg-header text-header-foreground">
+          <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
             <Link
               href="/"
-              className="-mx-2 flex min-h-11 items-center rounded-lg px-2 text-lg font-bold tracking-tight"
+              className="-mx-2 flex min-h-11 items-center rounded-lg px-2 font-heading text-lg font-bold tracking-tight"
             >
               Boodschapper
             </Link>
+            <nav aria-label="Main">
+              <Link
+                href="/about"
+                className="flex min-h-11 items-center rounded-lg px-3 font-semibold underline-offset-4 hover:underline"
+              >
+                About us
+              </Link>
+            </nav>
             {/*
               Navigation goes here once the team has fixed the top-level labels
               from the card sort (requirements.md, "Information architecture"):
