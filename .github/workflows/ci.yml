@@ -52,6 +52,11 @@ jobs:
     name: E2E and axe (phone + desktop)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Browsers preinstalled. Keep the tag in sync with @playwright/test.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble
+    env:
+      DATABASE_URL: postgres://boodschapper:boodschapper@postgres:5432/boodschapper
     services:
       postgres:
         image: postgres:17
@@ -59,8 +64,6 @@ jobs:
           POSTGRES_DB: boodschapper
           POSTGRES_USER: boodschapper
           POSTGRES_PASSWORD: boodschapper
-        ports:
-          - 5432:5432
         options: >-
           --health-cmd "pg_isready -U boodschapper -d boodschapper"
           --health-interval 5s
@@ -73,7 +76,6 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run db:migrate
       - run: npm run db:seed
       # With CI set, playwright.config.ts builds and starts the production server.
