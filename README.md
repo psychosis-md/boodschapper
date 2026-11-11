@@ -97,6 +97,21 @@ Never give a secret the `NEXT_PUBLIC_` prefix: those values are shipped to the b
 
 Vercel deploys `main` to production and gives every pull request its own preview URL, which is handy for peer evaluations. The database is a Neon Postgres added from the Vercel Marketplace, and `DATABASE_URL` is set automatically. Migrations run as part of the build.
 
+### CI/CD
+
+| Step | Where | What |
+|---|---|---|
+| CI | GitHub Actions, [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | On every PR and push to `main`: lint, typecheck, unit tests, a check that schema changes have a committed migration, then Playwright + axe at phone and desktop width against a production build with a throwaway Postgres |
+| Preview | Vercel Git integration | Every PR gets its own URL. Use a fixed preview URL for user studies (`evaluation.md`) |
+| Production | Vercel Git integration | Every merge to `main` |
+
+One-time setup in the dashboards (done by a team member, not in code):
+
+1. **Vercel:** import the GitHub repo as a project (framework: Next.js; Vercel runs `vercel-build` by itself).
+2. **Neon:** add it from Vercel → Storage, and turn on **a database branch for each preview deployment**. `vercel-build` runs migrations, so without this a PR's migration would run against the production database.
+3. **Vercel → Settings → Deployment Checks:** add the two CI jobs, so a production deploy is only promoted once CI is green.
+4. **GitHub → Settings → Branches:** protect `main` and require the CI checks to pass before merging.
+
 TODO: the production URL, and the demo account evaluators use. The final deliverable needs a working live URL by **Wed 20 Jan 2027**.
 
 ## HCI documentation

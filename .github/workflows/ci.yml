@@ -1,0 +1,91 @@
+# CI for every pull request and every push to main.
+# Deploys are done by Vercel's Git integration, not here: main goes to
+# production and every PR gets a preview URL. See "Deployment" in README.md.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch cancels the run that is still going.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CI: true
+  NEXT_TELEMETRY_DISABLED: 1
+  # Matches the postgres service below and compose.yaml. Not a secret.
+  DATABASE_URL: postgres://boodschapper:boodschapper@localhost:5432/boodschapper
+
+jobs:
+  checks:
+    name: Lint, types, unit tests, migrations
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json # engines.node, like Vercel
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Migrations are consistent
+        run: npx drizzle-kit check
+      - name: Schema changes have a committed migration
+        run: |
+          npm run db:generate
+          if [ -n "$(git status --porcelain drizzle/)" ]; then
+            echo "::error::src/db/schema.ts changed without a migration. Run 'npm run db:generate' and commit drizzle/."
+            git status --short drizzle/
+            exit 1
+          fi
+
+  e2e:
+    name: E2E and axe (phone + desktop)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Browsers preinstalled. Keep the tag in sync with @playwright/test.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble
+    env:
+      DATABASE_URL: postgres://boodschapper:boodschapper@postgres:5432/boodschapper
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: boodschapper
+          POSTGRES_USER: boodschapper
+          POSTGRES_PASSWORD: boodschapper
+        options: >-
+          --health-cmd "pg_isready -U boodschapper -d boodschapper"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      # With CI set, playwright.config.ts builds and starts the production server.
+      - run: npm run test:e2e
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
